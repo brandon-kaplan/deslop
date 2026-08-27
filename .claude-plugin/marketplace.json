@@ -1,0 +1,24 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
+  "name": "deslop",
+  "owner": {
+    "name": "Brandon Kaplan",
+    "url": "https://github.com/brandon-kaplan"
+  },
+  "description": "Install Deslop as a Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "deslop",
+      "source": "./",
+      "description": "Strip AI writing patterns from prose without inventing or losing facts.",
+      "license": "MIT",
+      "keywords": [
+        "writing",
+        "editing",
+        "prose",
+        "style",
+        "ai-detection"
+      ]
+    }
+  ]
+}
