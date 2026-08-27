@@ -1,0 +1,65 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: python ${{ matrix.python }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python3 tests/test_hooks.py
+
+  prose:
+    name: prose passes its own rules
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: no em dashes, en dashes, or curly quotes in shipped text
+        run: |
+          if grep -rlP '[\x{2014}\x{2013}\x{201C}\x{201D}\x{2018}\x{2019}]' \
+               --include='*.md' --include='*.py' --include='*.json' .; then
+            echo "::error::Deslop bans these marks in prose. Its own files must comply."
+            exit 1
+          fi
+          echo "clean"
+
+  manifests:
+    name: plugin manifests validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install --quiet jsonschema
+      - name: validate against schemastore
+        run: |
+          python3 - <<'PY'
+          import json, sys, urllib.request, jsonschema
+          bad = False
+          for f in (".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"):
+              d = json.load(open(f))
+              s = json.load(urllib.request.urlopen(d["$schema"], timeout=30))
+              try:
+                  jsonschema.validate(d, s)
+                  print(f"valid    {f}")
+              except jsonschema.ValidationError as e:
+                  bad = True
+                  print(f"INVALID  {f}: {e.message}")
+          sys.exit(1 if bad else 0)
+          PY

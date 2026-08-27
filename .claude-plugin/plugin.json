@@ -1,0 +1,25 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "deslop",
+  "description": "Strip AI writing patterns from prose without inventing or losing facts.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Brandon Kaplan",
+    "url": "https://github.com/brandon-kaplan"
+  },
+  "homepage": "https://github.com/brandon-kaplan/deslop",
+  "repository": "https://github.com/brandon-kaplan/deslop",
+  "license": "MIT",
+  "keywords": [
+    "writing",
+    "editing",
+    "prose",
+    "style",
+    "ai-detection",
+    "humanize",
+    "copywriting"
+  ],
+  "skills": [
+    "./"
+  ]
+}
