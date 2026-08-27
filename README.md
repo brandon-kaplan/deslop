@@ -20,20 +20,35 @@ That distinction matters more than it sounds. "Two items beat three" is good adv
 
 ## Install
 
-Clone into your skills directory:
+Three routes, same skill. Pick whichever matches how you already manage skills.
+
+**Skills CLI.** Works with Claude Code and every other agent the CLI supports, and
+it is the only route that registers an install on [skills.sh](https://skills.sh).
 
 ```bash
-git clone https://github.com/brandon-kaplan/deslop.git ~/.claude/skills/deslop
+npx skills add brandon-kaplan/deslop -g   # user-level, available everywhere
+npx skills add brandon-kaplan/deslop      # project-level, into ./.claude/skills
 ```
 
-Or add it as a Claude Code plugin marketplace:
+**Claude Code plugin.** Run these inside Claude Code:
 
 ```
 /plugin marketplace add brandon-kaplan/deslop
 /plugin install deslop
 ```
 
-Then invoke it with `/deslop`, or let it trigger on its own when you are writing or editing prose.
+Installing the plugin does not enable the optional hook. See
+[Scope](#scope-one-task-or-the-whole-conversation) below.
+
+**Git clone.** Use this one if you want to edit the rules locally or track
+upstream with `git pull`:
+
+```bash
+git clone https://github.com/brandon-kaplan/deslop.git ~/.claude/skills/deslop
+```
+
+However you install it, invoke it with `/deslop`, or let it trigger on its own
+when you are writing or editing prose.
 
 ## Scope: one task, or the whole conversation
 
